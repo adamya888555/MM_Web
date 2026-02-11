@@ -1,6 +1,15 @@
-import mongoose from 'mongoose';
+import mongoose, { Schema, Document, Types } from 'mongoose';
 
-const EnquirySchema = new mongoose.Schema({
+export interface IEnquiry extends Document {
+  userId: Types.ObjectId;
+  artworkType: 'painting' | 'tattoo';
+  message: string;
+  enquiryImage?: string;
+  status: 'pending' | 'reviewed' | 'contacted' | 'closed';
+  createdAt: Date;
+}
+
+const EnquirySchema: Schema<IEnquiry> = new Schema({
   userId: {
     type: mongoose.Schema.Types.ObjectId,
     ref: 'User',
@@ -30,4 +39,4 @@ const EnquirySchema = new mongoose.Schema({
   },
 });
 
-export default mongoose.models.Enquiry || mongoose.model('Enquiry', EnquirySchema);
+export default mongoose.models.Enquiry || mongoose.model<IEnquiry>('Enquiry', EnquirySchema);

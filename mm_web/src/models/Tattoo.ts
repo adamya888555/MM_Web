@@ -1,6 +1,13 @@
-import mongoose from 'mongoose';
+import mongoose, { Schema, Document } from 'mongoose';
 
-const TattooSchema = new mongoose.Schema({
+export interface ITattoo extends Document {
+  title: string;
+  image: string;
+  price: number;
+  createdAt: Date;
+}
+
+const TattooSchema: Schema<ITattoo> = new Schema({
   title: {
     type: String,
     required: [true, 'Title is required'],
@@ -21,4 +28,4 @@ const TattooSchema = new mongoose.Schema({
   },
 });
 
-export default mongoose.models.Tattoo || mongoose.model('Tattoo', TattooSchema);
+export default mongoose.models.Tattoo || mongoose.model<ITattoo>('Tattoo', TattooSchema);

@@ -1,6 +1,14 @@
-import mongoose from 'mongoose';
+import mongoose, { Schema, Document } from 'mongoose';
 
-const ArtworkSchema = new mongoose.Schema({
+export interface IArtwork extends Document {
+  title: string;
+  image: string;
+  description?: string;
+  price: number;
+  createdAt: Date;
+}
+
+const ArtworkSchema: Schema<IArtwork> = new Schema({
   title: {
     type: String,
     required: [true, 'Title is required'],
@@ -25,4 +33,4 @@ const ArtworkSchema = new mongoose.Schema({
   },
 });
 
-export default mongoose.models.Artwork || mongoose.model('Artwork', ArtworkSchema);
+export default mongoose.models.Artwork || mongoose.model<IArtwork>('Artwork', ArtworkSchema);

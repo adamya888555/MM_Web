@@ -1,6 +1,14 @@
-import mongoose from 'mongoose';
+import mongoose, { Schema, Document, Types } from 'mongoose';
 
-const ContactSchema = new mongoose.Schema({
+export interface IContact extends Document {
+  name: string;
+  email: string;
+  phone?: string;
+  enquiryId?: Types.ObjectId;
+  createdAt: Date;
+}
+
+const ContactSchema: Schema<IContact> = new Schema({
   name: {
     type: String,
     required: [true, 'Name is required'],
@@ -25,4 +33,4 @@ const ContactSchema = new mongoose.Schema({
   },
 });
 
-export default mongoose.models.Contact || mongoose.model('Contact', ContactSchema);
+export default mongoose.models.Contact || mongoose.model<IContact>('Contact', ContactSchema);
