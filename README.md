@@ -46,8 +46,7 @@ We utilize **Jira** for agile project management. Our Scrum board follows a stri
 ### Development Workflow
 We use **GitHub** for version control with a Jira integration:
 1. **Branching:** `feature/MM-101-description`
-2. **Commits:** Every commit includes the Jira Issue Key (e.g., `[MM-101]`).
-3. **CI/CD:** Automated deployments to Vercel via GitHub Actions/Hooks for staging and production.
+2. **CI/CD:** Automated deployments to Vercel via GitHub Actions/Hooks for staging and production.
 
 ---
 

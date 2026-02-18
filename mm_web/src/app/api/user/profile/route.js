@@ -1,13 +1,13 @@
 import { NextResponse } from 'next/server';
 import connectDB from '@/lib/db';
-import User from '@/src/models/User';
-import { verifyToken } from '@/src/lib/auth';
+import User from '@/models/User';
+import { verifyToken } from '@/lib/auth';
 
 export async function GET(request) {
   try {
     // 1. Get token from Authorization header
     const authHeader = request.headers.get('Authorization');
-    
+
     if (!authHeader || !authHeader.startsWith('Bearer ')) {
       return NextResponse.json(
         { success: false, error: 'No token provided' },
