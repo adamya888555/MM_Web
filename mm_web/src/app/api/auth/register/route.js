@@ -6,10 +6,10 @@ import User from '@/models/User';
 export async function POST(request) {
   try {
     // 1. Get data from request body
-    const { name, email, password, phone } = await request.json();
+    const { name, email, password} = await request.json();
 
     // 2. Validate input
-    if (!name || !email || !password) {
+    if (!name || !email ) {
       return NextResponse.json(
         { success: false, error: 'Name, email and password are required' },
         { status: 400 }
@@ -53,7 +53,6 @@ export async function POST(request) {
       name: name.trim(),
       email: email.toLowerCase(),
       password: hashedPassword,
-      phone: phone || '',
       role: 'customer',
     });
 
