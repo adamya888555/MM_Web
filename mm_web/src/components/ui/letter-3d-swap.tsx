@@ -63,7 +63,7 @@ interface WordObject {
   needsSpace: boolean
 }
 
-interface Letter3DSwapProps {
+interface Letter3DSwapProps extends React.HTMLAttributes<HTMLElement> {
   /**
    * The content to be displayed and animated
    */
@@ -234,48 +234,48 @@ const Letter3DSwap = ({
     setIsHovering(false)
   }, [])
 
-  const ElementTag = as ?? "p"
+  const Component = as ?? "p"
 
-  return (
-    <ElementTag
-      className={cn("flex flex-wrap relative", mainClassName)}
-      onMouseEnter={handleHoverStart}
-      onMouseLeave={handleHoverEnd}
-      ref={scope}
-      {...props}
-    >
-      <span className="sr-only">{text}</span>
+  return React.createElement(
+    Component,
+    {
+      className: cn("flex flex-wrap relative", mainClassName),
+      onMouseEnter: handleHoverStart,
+      onMouseLeave: handleHoverEnd,
+      ref: scope,
+      ...props,
+    },
+    <span className="sr-only">{text}</span>,
 
-      {characters.map(
-        (wordObj: WordObject, wordIndex: number, array: WordObject[]) => {
-          const previousCharsCount = array
-            .slice(0, wordIndex)
-            .reduce(
-              (sum: number, word: WordObject) => sum + word.characters.length,
-              0
-            )
-
-          return (
-            <span key={wordIndex} className="inline-flex">
-              {wordObj.characters.map((char: string, charIndex: number) => {
-                const totalIndex = previousCharsCount + charIndex
-
-                return (
-                  <CharBox
-                    key={totalIndex}
-                    char={char}
-                    frontFaceClassName={frontFaceClassName}
-                    secondFaceClassName={secondFaceClassName}
-                    rotateDirection={rotateDirection}
-                  />
-                )
-              })}
-              {wordObj.needsSpace && <span className="whitespace-pre"> </span>}
-            </span>
+    characters.map(
+      (wordObj: WordObject, wordIndex: number, array: WordObject[]) => {
+        const previousCharsCount = array
+          .slice(0, wordIndex)
+          .reduce(
+            (sum: number, word: WordObject) => sum + word.characters.length,
+            0
           )
-        }
-      )}
-    </ElementTag>
+
+        return (
+          <span key={wordIndex} className="inline-flex">
+            {wordObj.characters.map((char: string, charIndex: number) => {
+              const totalIndex = previousCharsCount + charIndex
+
+              return (
+                <CharBox
+                  key={totalIndex}
+                  char={char}
+                  frontFaceClassName={frontFaceClassName}
+                  secondFaceClassName={secondFaceClassName}
+                  rotateDirection={rotateDirection}
+                />
+              )
+            })}
+            {wordObj.needsSpace && <span className="whitespace-pre"> </span>}
+          </span>
+        )
+      }
+    )
   )
 }
 
@@ -322,7 +322,7 @@ const CharBox = ({
     >
       {/* Front face */}
       <span
-        className={cn("relative backface-hidden h-[1lh]", frontFaceClassName)}
+        className={cn("relative backface-hidden h-lh", frontFaceClassName)}
         style={{
           transform: `${
             rotateDirection === "top" || rotateDirection === "bottom"
@@ -339,7 +339,7 @@ const CharBox = ({
       {/* Second face - positioned based on rotation direction */}
       <span
         className={cn(
-          "absolute backface-hidden h-[1lh] top-0 left-0",
+          "absolute backface-hidden h-lh top-0 left-0",
           secondFaceClassName
         )}
         style={{
