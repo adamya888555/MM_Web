@@ -1,10 +1,7 @@
 import mongoose from 'mongoose';
 
-const MONGODB_URI = process.env.MONGO_URI;
-
-if (!MONGODB_URI) {
-    throw new Error('Please define MONGODB_URI in .env');
-}
+// Defer env resolution to avoid top-level throws during Next.js static analysis
+const getMongoURI = () => process.env.MONGODB_URI || process.env.MONGO_URL;
 
 interface MongooseConn {
     conn: mongoose.Mongoose | null;
@@ -19,6 +16,11 @@ if (!cached) {
 }
 
 async function connectDB(): Promise<mongoose.Mongoose> {
+    const uri = getMongoURI();
+    if (!uri) {
+        throw new Error('Please define MONGODB_URI or MONGO_URL in your .env file');
+    }
+
     if (cached.conn) {
         return cached.conn;
     }
@@ -28,7 +30,7 @@ async function connectDB(): Promise<mongoose.Mongoose> {
             bufferCommands: false,
         };
 
-        cached.promise = mongoose.connect(MONGODB_URI!, opts).then((mongoose) => {
+        cached.promise = mongoose.connect(uri, opts).then((mongoose) => {
             console.log('✅ MongoDB Connected');
             return mongoose;
         });
