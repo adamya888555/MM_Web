@@ -100,7 +100,7 @@ export default function Hero() {
                 <FloatingElement depth={1.2} className="top-[40%] right-[2%] z-10 w-24 md:w-32 aspect-[1/2]">
                     <div className="relative w-full h-full overflow-hidden rounded-lg border border-white/20 shadow-xl opacity-70 hover:opacity-100 transition-all hover:scale-105">
                         <Image
-                            src="https://images.unsplash.com/photo-1515405295579-ba7b454989ab?q=80&w=880&auto=format&fit=crop"
+                            src="https://images.unsplash.com/photo-1513364776144-60967db0f80b?q=80&w=880&auto=format&fit=crop"
                             alt="Vertical Art"
                             fill
                             className="object-cover"
