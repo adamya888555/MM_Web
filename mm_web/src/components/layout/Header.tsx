@@ -5,6 +5,29 @@ import { usePathname } from "next/navigation";
 import { useState, useEffect } from "react";
 import { ChevronDown, Menu, X } from "lucide-react";
 
+function NavItem({
+  href,
+  label,
+  isActive,
+}: {
+  href: string;
+  label: string;
+  isActive: boolean;
+}) {
+  return (
+    <Link
+      href={href}
+      className={`relative flex items-center text-[13px] font-semibold tracking-[0.15em] uppercase transition-colors py-1.5 ${isActive
+          ? "text-black dark:text-white"
+          : "text-zinc-500 dark:text-zinc-400 hover:text-black dark:hover:text-white"
+        } after:absolute after:-bottom-1 after:left-0 after:w-full after:h-[2px] after:bg-black dark:after:bg-white after:origin-right after:scale-x-0 hover:after:origin-left hover:after:scale-x-100 after:transition-transform after:duration-300 ${isActive ? "after:scale-x-100 after:origin-left" : ""
+        }`}
+    >
+      {label}
+    </Link>
+  );
+}
+
 export default function Header() {
   const [isScrolled, setIsScrolled] = useState(false);
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
@@ -22,8 +45,8 @@ export default function Header() {
   return (
     <header
       className={`fixed top-0 left-0 w-full z-50 transition-all duration-300 ${isScrolled
-          ? "bg-white/80 dark:bg-black/80 backdrop-blur-md border-b border-zinc-200 dark:border-zinc-800 py-4"
-          : "bg-transparent py-6"
+        ? "bg-white/20 dark:bg-black/20 backdrop-blur-md border-b border-black dark:border-black py-4"
+        : "bg-transparent py-6"
         }`}
     >
       <div className="max-w-7xl mx-auto px-6 h-full flex items-center justify-between">
@@ -31,45 +54,37 @@ export default function Header() {
         <Link href="/" className="flex items-center gap-2 group">
           <div className="text-2xl font-bold tracking-tighter text-black dark:text-white group-hover:opacity-80 transition-opacity">
             MOHALI MART
-            <span className="text-xs font-normal block tracking-widest text-zinc-500 uppercase">
+            <span className="text-xs font-normal block tracking-widest text-zinc-400 uppercase">
               Business Hub
             </span>
           </div>
         </Link>
 
         {/* Desktop Navigation */}
-        <nav className="hidden md:flex items-center gap-8">
-          <Link
-            href="/"
-            className={`text-sm font-medium transition-colors hover:text-black dark:hover:text-white ${pathname === "/" ? "text-black dark:text-white" : "text-zinc-500"
-              }`}
-          >
-            HOME
-          </Link>
-          <Link
-            href="/about"
-            className={`text-sm font-medium transition-colors hover:text-black dark:hover:text-white ${pathname === "/about" ? "text-black dark:text-white" : "text-zinc-500"
-              }`}
-          >
-            ABOUT
-          </Link>
+        <nav className="hidden md:flex items-center gap-10">
+          <NavItem href="/" label="HOME" isActive={pathname === "/"} />
+          <NavItem href="/about" label="ABOUT" isActive={pathname === "/about"} />
+
           <div
             className="relative"
             onMouseEnter={() => setIsMegaMenuOpen(true)}
             onMouseLeave={() => setIsMegaMenuOpen(false)}
           >
             <button
-              className={`flex items-center gap-1 text-sm font-medium transition-colors hover:text-black dark:hover:text-white ${isMegaMenuOpen ? "text-black dark:text-white" : "text-zinc-500"
+              className={`relative flex items-center gap-1 text-[13px] font-semibold tracking-[0.15em] uppercase transition-colors py-1.5 ${isMegaMenuOpen
+                  ? "text-black dark:text-white"
+                  : "text-zinc-500 dark:text-zinc-400 hover:text-black dark:hover:text-white"
+                } after:absolute after:-bottom-1 after:left-0 after:w-full after:h-[2px] after:bg-black dark:after:bg-white after:origin-right after:scale-x-0 hover:after:origin-left hover:after:scale-x-100 after:transition-transform after:duration-300 ${isMegaMenuOpen ? "after:scale-x-100 after:origin-left" : ""
                 }`}
             >
-              ESSENTIALS <ChevronDown className="w-4 h-4" />
+              ESSENTIALS <ChevronDown className={`w-3.5 h-3.5 transition-transform duration-300 ${isMegaMenuOpen ? "rotate-180" : ""}`} />
             </button>
 
             {/* Mega Menu */}
             <div
               className={`absolute top-full left-1/2 -translate-x-1/2 w-[600px] mt-4 p-8 bg-white dark:bg-zinc-900 shadow-xl rounded-xl border border-zinc-100 dark:border-zinc-800 transition-all duration-300 origin-top ${isMegaMenuOpen
-                  ? "opacity-100 scale-100 visible"
-                  : "opacity-0 scale-95 invisible"
+                ? "opacity-100 scale-100 visible"
+                : "opacity-0 scale-95 invisible"
                 }`}
             >
               <div className="grid grid-cols-3 gap-8">
@@ -161,15 +176,7 @@ export default function Header() {
               </div>
             </div>
           </div>
-          <Link
-            href="/contact"
-            className={`text-sm font-medium transition-colors hover:text-black dark:hover:text-white ${pathname === "/contact"
-                ? "text-black dark:text-white"
-                : "text-zinc-500"
-              }`}
-          >
-            CONTACT
-          </Link>
+          <NavItem href="/contact" label="CONTACT" isActive={pathname === "/contact"} />
         </nav>
 
         {/* Right Action */}

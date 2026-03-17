@@ -1,14 +1,14 @@
-@import 'tailwindcss';
-@import "tw-animate-css";
+@import "tailwindcss";
+@import "../../node_modules/tw-animate-css/dist/tw-animate.css";
 @import "shadcn/tailwind.css";
-@plugin 'lightswind/plugin';
+@plugin "lightswind/plugin";
 
 @custom-variant dark (&:is(.dark *));
-@plugin 'lightswind/plugin';
 
 body {
   /* font-family property removed to allow Next.js font className to take precedence */
-  overflow-x: hidden; /* Prevent horizontal scroll from mega menu if any */
+  overflow-x: hidden;
+  /* Prevent horizontal scroll from mega menu if any */
 }
 
 /* Smooth scrolling for anchor links */
@@ -17,6 +17,8 @@ html {
 }
 
 @theme inline {
+  --font-sans: var(--font-inter);
+  --font-serif: var(--font-instrument);
   --radius-sm: calc(var(--radius) - 4px);
   --radius-md: calc(var(--radius) - 2px);
   --radius-lg: var(--radius);
@@ -130,6 +132,7 @@ html {
   * {
     @apply border-border outline-ring/50;
   }
+
   body {
     @apply bg-background text-foreground;
   }
